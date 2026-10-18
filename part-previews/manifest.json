@@ -1,0 +1,327 @@
+{
+  "generator": "gltfpack 1.2.0",
+  "ratio": 0.02,
+  "error": 0.01,
+  "meshes": [
+    {
+      "path": "k1_structural_frame/variation_01_seed_45.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_01_seed_45.glb",
+      "source_sha256": "a2932f22c6cfa5a8b34db2ac302c35cca3652cc7d1b7c60c82be40348cbc9154",
+      "sha256": "034ba1c2f4a78e4a18bd55f9acbce8ae1ada8b99ca593154b3913f842772a246",
+      "faces": 167362,
+      "bytes": 834524
+    },
+    {
+      "path": "k1_structural_frame/variation_02_seed_49.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_02_seed_49.glb",
+      "source_sha256": "e0f6316340b8a82ea4578352c92798bfe487503f45c6f6b951768c2bd4f758bd",
+      "sha256": "465134568b5d92ba8bd554aadf42818bbfae1f90e60481cf18848fa944891d4f",
+      "faces": 167338,
+      "bytes": 890988
+    },
+    {
+      "path": "k1_structural_frame/variation_03_seed_53.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_03_seed_53.glb",
+      "source_sha256": "18ccc2d15cee23a793b7af6177fd6881b65558b1e93669f675862c330ad61443",
+      "sha256": "8570e17ca547639d0f35a236ac28ec885f8aa5f1ad650d2be3b1da605bab9c8b",
+      "faces": 147220,
+      "bytes": 761184
+    },
+    {
+      "path": "k1_structural_frame/variation_04_seed_57.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_04_seed_57.glb",
+      "source_sha256": "28e92de697ba03ca710c7a45eafdfbe5ab30a0e57c39ac9b33e37eb6a6fc2b97",
+      "sha256": "513cdcb435611a9d62084a3f2180d00e8a38fdc08f4d067e52310035af77b21a",
+      "faces": 139619,
+      "bytes": 723720
+    },
+    {
+      "path": "k1_structural_frame/variation_05_seed_61.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_05_seed_61.glb",
+      "source_sha256": "cd3318fd55475566c6e1a4c81889d4f3a30d4686706753f2847361c6dbeb9f48",
+      "sha256": "61bcb00562c612fa66eae3aa595927e34f4975d991dc38b12cd77d800f423177",
+      "faces": 183594,
+      "bytes": 1048936
+    },
+    {
+      "path": "k1_structural_frame/variation_06_seed_65.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_06_seed_65.glb",
+      "source_sha256": "e5fc98064ad18d5c49682621d5e5d1a20503f390bcd3e0228300444bcad12d87",
+      "sha256": "c8d7f5bf83b9339cf829e0688af815e86542fb53b6eda9bb2b0189e57a57804e",
+      "faces": 150405,
+      "bytes": 825460
+    },
+    {
+      "path": "k1_structural_frame/variation_07_seed_69.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_07_seed_69.glb",
+      "source_sha256": "2f5f2327e035465cbad434091b955f0b7cdbb02933e85514819e93f8489707bb",
+      "sha256": "981c3f8bb80c1f0e365e929c9ae39fe31b944032aecb1261742bb6c7b798b026",
+      "faces": 83617,
+      "bytes": 418828
+    },
+    {
+      "path": "k1_structural_frame/variation_08_seed_73.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_08_seed_73.glb",
+      "source_sha256": "af2ce6b29a2bc72844e2c083dd1182acd1dd4ffadaddefcc2dc9253e0f68f8fe",
+      "sha256": "078f6818cb2713c335c74df9cc6414af4a43eb4d24525c3298853d778cd382bf",
+      "faces": 84040,
+      "bytes": 414872
+    },
+    {
+      "path": "k1_structural_frame/variation_09_seed_77.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_09_seed_77.glb",
+      "source_sha256": "c0d0b446be631fdb5ea627b750633eca1842fdbcf0de08ee478811e8b91a8980",
+      "sha256": "6d2643ff47ed04a2a43da4974c21af7cc4348eb4825da5d6f896b581a614fe88",
+      "faces": 185863,
+      "bytes": 1029500
+    },
+    {
+      "path": "k1_structural_frame/variation_10_seed_81.glb",
+      "source": "part_alternatives_cad/k1_structural_frame/variation_10_seed_81.glb",
+      "source_sha256": "ec6440e6faca9472cfb10457dfbcea80f9306215dd99b262cdc7f8db26d231c2",
+      "sha256": "ac1f51d18622ba9003f25dfbc88b62bb9f2dfacdaa0f14272020563e20562776",
+      "faces": 185788,
+      "bytes": 983516
+    },
+    {
+      "path": "torsen_differential/variation_01_seed_43.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_01_seed_43.glb",
+      "source_sha256": "898530820a4ba81ec789e9c9fbc07a0fab74655fd2c3fde77590b96e50cab8c5",
+      "sha256": "fccb0533ea78687f2fc4eb6f6fb114ea9e639d60ddea978bb500e35883510e9f",
+      "faces": 183607,
+      "bytes": 984620
+    },
+    {
+      "path": "torsen_differential/variation_02_seed_47.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_02_seed_47.glb",
+      "source_sha256": "6c371a6c26c3ef469860715b589e4f4e03a890cba4ec31b6732b441db52ce75a",
+      "sha256": "49c4fdba2a7c2ee426d802c6e5a949a7dcfd04c7b8e60476030543304b23bb33",
+      "faces": 97159,
+      "bytes": 466112
+    },
+    {
+      "path": "torsen_differential/variation_03_seed_51.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_03_seed_51.glb",
+      "source_sha256": "f012096154f7bc22f0430e9e19b623a7cca4e7f6b7cc8d32ebbebc3894812ba1",
+      "sha256": "dde129e652257d1dc90caad04847b731914324d5efbf43f8d0f1d79b6d95e10a",
+      "faces": 240664,
+      "bytes": 1229608
+    },
+    {
+      "path": "torsen_differential/variation_04_seed_55.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_04_seed_55.glb",
+      "source_sha256": "70037973b7ec47b71b26d1d952121cb748f46e818e77a490ff1b1f337d4deb88",
+      "sha256": "e99a6ab4a6c0eb031235fe816addf801c82ff8f9ed0cbf177bff1268a0fec3fa",
+      "faces": 170411,
+      "bytes": 848092
+    },
+    {
+      "path": "torsen_differential/variation_05_seed_59.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_05_seed_59.glb",
+      "source_sha256": "64e5dfd3a20f34718116a7eb2242de13c59c9b1f675211cbc243658b2233103c",
+      "sha256": "84482cb876a1ef749138267d2986d83884d6bc02ed330e0812e0b6642f53acde",
+      "faces": 231628,
+      "bytes": 1105072
+    },
+    {
+      "path": "torsen_differential/variation_06_seed_63.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_06_seed_63.glb",
+      "source_sha256": "e137677d99f34f3ad54613cfd9f00fc799db6670300f1f5dcf213e1807664316",
+      "sha256": "a645611fa27e1cc55e1c133033bfceca6f05a936775fe0f1cb88f5d5761f7a3d",
+      "faces": 139551,
+      "bytes": 681484
+    },
+    {
+      "path": "torsen_differential/variation_07_seed_67.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_07_seed_67.glb",
+      "source_sha256": "79d0944305bf5a7168df071975dd385793f98017cfe5b8ab0cc7ac7c7abdc3e2",
+      "sha256": "da86aefc0e923c9de818b27d71f7a0214630f4a918c3d0a18950a02b7cf5f407",
+      "faces": 170226,
+      "bytes": 823492
+    },
+    {
+      "path": "torsen_differential/variation_08_seed_71.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_08_seed_71.glb",
+      "source_sha256": "41daa57d28503403fc2222165d39866b4e96db9bf77bb37f3dace43b04d6668d",
+      "sha256": "f9b14e3608f646b1bb5e692d18c6f0f21b3af1eb26c8c7e50db1b597957c84ae",
+      "faces": 225596,
+      "bytes": 1154520
+    },
+    {
+      "path": "torsen_differential/variation_09_seed_75.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_09_seed_75.glb",
+      "source_sha256": "898c8dc558e3339a6f1b6e3518eab8f7f95b02e552e75ecc0837ab7012fca61e",
+      "sha256": "ab8e350f7ae903060e674d72f1b33ac055f564b40a9962973cb86c849f7f1d15",
+      "faces": 176871,
+      "bytes": 882684
+    },
+    {
+      "path": "torsen_differential/variation_10_seed_79.glb",
+      "source": "part_alternatives_cad/torsen_differential/variation_10_seed_79.glb",
+      "source_sha256": "62b10d2a46c6df734e204b282a7794b226455a8aa83ae3f2a9cf2a7be6b5be22",
+      "sha256": "c7bea8094624df0bc66978ef5dffaec1e346b90bce85f851f2443224f2da284a",
+      "faces": 205093,
+      "bytes": 1019088
+    },
+    {
+      "path": "tremec_transmission/variation_01_seed_44.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_01_seed_44.glb",
+      "source_sha256": "f84e1745a55aecb6f12afa2175fdafdb295ef1d72ba16fc00403cdf7ee86c383",
+      "sha256": "e1e83409f8c39e2b8f976eeb04057e0bd59eb72178520c18d7a9cb2b21bd4227",
+      "faces": 112930,
+      "bytes": 549104
+    },
+    {
+      "path": "tremec_transmission/variation_02_seed_48.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_02_seed_48.glb",
+      "source_sha256": "f96f1a07081e25131998b0dc279f20ae24a13359e1b421b35b6d59a1ae4548e4",
+      "sha256": "31bbf2f1dfebc5a9dfa7cd4f8e3a2a1c520623b7a44419d73e137ab5c516041d",
+      "faces": 176989,
+      "bytes": 990772
+    },
+    {
+      "path": "tremec_transmission/variation_03_seed_52.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_03_seed_52.glb",
+      "source_sha256": "e33a426fe55344dadc6d1ff8faceee2b3177dcc75a4df33b15f166c8472d0d9d",
+      "sha256": "abee70604490a7e5a3251738bf13442cbd4bc0baf4db630c98744a0c5ed5e406",
+      "faces": 74163,
+      "bytes": 339000
+    },
+    {
+      "path": "tremec_transmission/variation_04_seed_56.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_04_seed_56.glb",
+      "source_sha256": "8b0ebf73cbc8fd2c051c0854220f3af7b7bb38ce60371ca5de027ec97c4ebe11",
+      "sha256": "e98a2455f0d3f4141af2d9e01da7823ce75eb91aa725b234480543a827257d17",
+      "faces": 191608,
+      "bytes": 1001024
+    },
+    {
+      "path": "tremec_transmission/variation_05_seed_60.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_05_seed_60.glb",
+      "source_sha256": "2f57da8da1c9a751e574a727aa139e0254a0a4e63516168b7973bffa8afb8799",
+      "sha256": "f9dc41d2b05df211c10e811b0a9dee5df356544ab44f12060b678c0d7fcc1048",
+      "faces": 155922,
+      "bytes": 799080
+    },
+    {
+      "path": "tremec_transmission/variation_06_seed_64.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_06_seed_64.glb",
+      "source_sha256": "06d3c69afa7a81e30f351bdd71b690c8f43b80f1c2b209c0fcb6d0ed323bed12",
+      "sha256": "890ca99bb47dd9de07ab35c18e4a36f0268987f801c183b952bfdf08b9359b92",
+      "faces": 112334,
+      "bytes": 562852
+    },
+    {
+      "path": "tremec_transmission/variation_07_seed_68.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_07_seed_68.glb",
+      "source_sha256": "073dd261d5ca70a682f56fb269ed43e3d9c0f13a167a4cea5d80cdef1c421c33",
+      "sha256": "9d0d4dc739a98d73316c96710c0660e124df32532eee5da2ba9eaa05a7491fe5",
+      "faces": 276641,
+      "bytes": 1577656
+    },
+    {
+      "path": "tremec_transmission/variation_08_seed_72.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_08_seed_72.glb",
+      "source_sha256": "8a2da64cddc8720e1c4654e318045a3677ea929e2d3e87cddc3e05e7edb79f2d",
+      "sha256": "85a55f81bd844bcf119727bd1100649fbcf227e24b2eec5a3d11d0449d8e9adb",
+      "faces": 148858,
+      "bytes": 785312
+    },
+    {
+      "path": "tremec_transmission/variation_09_seed_76.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_09_seed_76.glb",
+      "source_sha256": "2024a5c1920d906e2d8fbd796d015e42a544765f37131bc1406dd2fa2b77a3a1",
+      "sha256": "0c8b4a7e35050ec725617b0e82f02dc508e8dccdfd09a92a47edcdc9f7401110",
+      "faces": 279154,
+      "bytes": 1562208
+    },
+    {
+      "path": "tremec_transmission/variation_10_seed_80.glb",
+      "source": "part_alternatives_cad/tremec_transmission/variation_10_seed_80.glb",
+      "source_sha256": "c23a4dedacd6abb9148c57cf827f6615f05f80c9bcdaa9234fa51f812c4b4aea",
+      "sha256": "e3807290f5ee8c3377bba4f04c992380b6073a2d84874df47ec658f7ae26f5ae",
+      "faces": 128503,
+      "bytes": 658432
+    },
+    {
+      "path": "v8_engine/variation_01_seed_42.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_01_seed_42.glb",
+      "source_sha256": "51f189ec046d4ddf23ed306441ca47fe7e902a22a04611dc585931231bb22a98",
+      "sha256": "8cd2eb10f2e04fede5ef058f15305912da97ab6655cbad89ac9f1609fd3ef9ba",
+      "faces": 234699,
+      "bytes": 1179768
+    },
+    {
+      "path": "v8_engine/variation_02_seed_46.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_02_seed_46.glb",
+      "source_sha256": "a14277af3589cd85ef3cf067673ecb080b82edbc23932527d89499d5e651c222",
+      "sha256": "c42953de9ec86bd35432408997906bc892b41ee0d432ce7e30277b70213b5884",
+      "faces": 266903,
+      "bytes": 1380696
+    },
+    {
+      "path": "v8_engine/variation_03_seed_50.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_03_seed_50.glb",
+      "source_sha256": "05d9fc75ed63a1cfc24b187d1c494052a5f5a79a3ac8c3d5fa54ed50d0667fbf",
+      "sha256": "8d10ab839cc67402e62c2f34b96b2da588c6a303941d308ece2ecc8dc8dd1210",
+      "faces": 182134,
+      "bytes": 916152
+    },
+    {
+      "path": "v8_engine/variation_04_seed_54.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_04_seed_54.glb",
+      "source_sha256": "6b8d549c0cf903cc958f13461db73a08268e7114a461e24e7b83b2f93bd820b9",
+      "sha256": "054ef69349c0f1784b820f57fbbcec2f9a65a8f8430a7804266b00bd279e0051",
+      "faces": 392397,
+      "bytes": 2050760
+    },
+    {
+      "path": "v8_engine/variation_05_seed_58.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_05_seed_58.glb",
+      "source_sha256": "bc19b8f6bfa2e94f6b337999d34d70eedd525dd84a373645f6257880e75ac0be",
+      "sha256": "7d638534207516b5ae1b92db363d1a1bbfbefe23e38f92318a91e58753b29034",
+      "faces": 265572,
+      "bytes": 1328900
+    },
+    {
+      "path": "v8_engine/variation_06_seed_62.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_06_seed_62.glb",
+      "source_sha256": "58d322b796d065a3e58351b505bff4d140a82d28be392a0f7ff98745f8c2294a",
+      "sha256": "b31355acfa3e6fb2f552f026689ed72cd8192e27162588bffb9998bd4fe6b776",
+      "faces": 248138,
+      "bytes": 1254284
+    },
+    {
+      "path": "v8_engine/variation_07_seed_66.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_07_seed_66.glb",
+      "source_sha256": "92a5512d10088793fa862a69c4b1bcd81920959504bebb6d4ad2c861eb7c1f81",
+      "sha256": "54a54546c97fdd75518891fd32c52973b3414198b0a9dac614d3a1aec70e90a6",
+      "faces": 320516,
+      "bytes": 1688492
+    },
+    {
+      "path": "v8_engine/variation_08_seed_70.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_08_seed_70.glb",
+      "source_sha256": "3952af175bd386c1f7ad9c7352a964aceb59e367f3b8c9f07530f3c5919017ba",
+      "sha256": "d69db98b9adf5f76922f6380d399c5f5827f30301f8df35a8138c01b80e060cc",
+      "faces": 146596,
+      "bytes": 719428
+    },
+    {
+      "path": "v8_engine/variation_09_seed_74.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_09_seed_74.glb",
+      "source_sha256": "fdf0236cce61992d4e69fff76806b622c6945b37bd4347d6f8322e33ef721610",
+      "sha256": "df4781fad5f49f6643e160847c276cb53b6da9914d517441c5f1c8a5c2432446",
+      "faces": 165385,
+      "bytes": 812336
+    },
+    {
+      "path": "v8_engine/variation_10_seed_78.glb",
+      "source": "part_alternatives_cad/v8_engine/variation_10_seed_78.glb",
+      "source_sha256": "2026f9bfb0449f891a2e673681b0a770668c63ca8e5bcc5aa48f3022afbaf814",
+      "sha256": "f5866da3c50195c2c262b40b1a5d3a5c41e6aabe43aeb2a6e631c8c9889ad76c",
+      "faces": 194309,
+      "bytes": 954140
+    }
+  ]
+}

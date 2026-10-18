@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111317">
+  <title>Part alternatives · IDFM</title>
+  <script>if(window.parent!==window&&new URLSearchParams(location.search).get('embed')==='1')document.documentElement.dataset.embedded='true';</script>
+  <link rel="stylesheet" href="./alternatives.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./">IDFM<span>Design exploration</span></a>
+    <div class="page-title">Part alternatives</div>
+    <span id="completion" class="completion" aria-live="polite">Loading collection…</span>
+  </header>
+  <div class="workspace">
+    <aside class="sidebar" aria-label="Choose an alternative">
+      <label for="part-select">Component</label>
+      <select id="part-select" disabled></select>
+      <div class="list-heading"><span>Alternatives</span><span id="part-count"></span></div>
+      <nav id="alternatives" class="alternatives" aria-label="Alternative images"></nav>
+    </aside>
+    <main>
+      <div class="selection-bar">
+        <div><p id="part-title" class="eyebrow">Component</p><h1 id="selection-title">Loading alternatives…</h1></div>
+        <div class="navigation"><button id="previous" aria-label="Previous alternative" title="Previous alternative (←)">←</button><button id="next" aria-label="Next alternative" title="Next alternative (→)">→</button></div>
+      </div>
+      <div class="panes">
+        <section class="pane image-pane" aria-label="Alternative image">
+          <div class="pane-heading"><h2>Alternative image</h2><a id="download-image" class="text-action" download>Download PNG <span aria-hidden="true">↗</span></a></div>
+          <div class="image-stage"><img id="reference" alt="" hidden></div>
+          <div class="pane-footer">Generated design alternative</div>
+        </section>
+        <section class="pane mesh-pane" aria-label="Interactive 3D mesh">
+          <div class="pane-heading"><h2>3D mesh <span id="mesh-badge" class="badge">Waiting</span></h2><a id="download-mesh" class="text-action" aria-disabled="true" download>Download GLB <span aria-hidden="true">↗</span></a></div>
+          <div id="mesh-stage" class="mesh-stage">
+            <canvas id="mesh-canvas" tabindex="0" aria-label="3D mesh. Drag to rotate, right-drag to pan, scroll to zoom."></canvas>
+            <div id="mesh-overlay" class="mesh-overlay" role="status" aria-live="polite"><div class="overlay-card"><span id="loading-symbol" class="loading-symbol" hidden></span><p id="mesh-message">Choose an alternative</p><p id="mesh-detail"></p><button id="retry" hidden>Try again</button></div></div>
+            <div id="view-tools" class="view-tools" hidden><button id="reset-view" title="Fit the mesh in view">Reset view</button><button id="auto-rotate" aria-pressed="false">Auto rotate</button><button id="full-detail" title="Load the original full-resolution refined mesh">Full detail</button></div>
+          </div>
+          <div class="pane-footer controls-hint"><span>Drag to rotate</span><span>Right-drag to pan</span><span>Scroll to zoom</span></div>
+        </section>
+      </div>
+      <div class="status-line"><span id="mesh-info"></span><span id="collection-status" role="status"></span></div>
+    </main>
+  </div>
+  <noscript>This viewer needs JavaScript to display interactive meshes.</noscript>
+  <script type="module" src="./alternatives.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="data:,">
+<title>IDFM Marketing — Design viewer</title>
+<style>
+:root{--bg:#15171b;--panel:#1d2026;--panel2:#242830;--line:#2f333c;--text:#e8eaee;--muted:#8d939e;--accent:#f0b429;--font-d:"Barlow Condensed","Arial Narrow",sans-serif;--font-b:"Barlow","Helvetica Neue",Arial,sans-serif}
+html,body{height:100%;margin:0}body{background:var(--bg);color:var(--text);font:13.5px/1.45 var(--font-b);overflow:hidden}
+#app{display:grid;grid-template-columns:300px 1fr;grid-template-rows:54px 1fr 28px;height:100vh}
+header{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font:700 21px/1 var(--font-d);letter-spacing:.04em;text-transform:uppercase;margin:0;color:var(--accent)}header h1 span{color:var(--text);font-weight:500}
+select{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:6px 8px;font:500 13px var(--font-b);max-width:420px}
+.stats{color:var(--muted);font-variant-numeric:tabular-nums}.stats b{color:var(--text);font-weight:500}
+aside{border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
+.ctl{padding:12px 14px;border-bottom:1px solid var(--line);display:grid;gap:9px}
+.row{display:flex;align-items:center;gap:8px}.lbl{font:600 11.5px/1 var(--font-d);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);width:64px;flex:none}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;flex:1}.seg button{flex:1;background:transparent;border:0;color:var(--muted);padding:5px 0;font:500 12.5px var(--font-b);cursor:pointer}.seg button.on{background:var(--panel2);color:var(--text)}
+input[type=range]{flex:1;accent-color:var(--accent)}
+.trees{overflow:auto;flex:1;min-height:0;padding:6px 0}
+.tree h3{font:600 12px/1 var(--font-d);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 14px 4px}
+.node{display:flex;gap:6px;align-items:center;padding:2px 8px;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums}
+.node:hover{background:var(--panel2)}.node.sel{background:#2c2a1f;box-shadow:inset 3px 0 0 var(--accent)}
+.node .sw{width:10px;height:10px;border-radius:2px;flex:none}.node .k{color:var(--muted);font-size:12px}.node .fb{color:#e08b4a;font-size:11px}
+.pane{position:relative;min-width:0;min-height:0;border-right:1px solid var(--line)}.pane canvas{width:100%;height:100%;display:block}
+.cap{position:absolute;left:10px;top:8px;font:600 13px/1.3 var(--font-d);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.cap b{color:var(--text)}
+.epi{display:flex;gap:6px;align-items:center;padding:3px 10px;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:12.5px}.epi:hover{background:var(--panel2)}.epi.sel{background:#2c2a1f;box-shadow:inset 3px 0 0 var(--accent)}.epi .d{color:var(--muted);width:22px;flex:none}.epi .tag{font-size:10.5px;padding:0 4px;border-radius:2px;background:var(--panel2);color:var(--muted)}.epi .tag.sc{color:#e08b4a}.epi .tag.fb{color:#c9a0ff}.epi .tag.sy{color:#6fc3df}.epi .tag.sk{color:#d05a5a}.epi .tag.lo{color:#d05a5a}
+.nav{display:flex;gap:6px;align-items:center;padding:6px 14px;border-bottom:1px solid var(--line)}.nav button{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:3px 10px;cursor:pointer;font:500 12px var(--font-b)}.nav label{color:var(--muted);font-size:12px;margin-left:auto}
+footer{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:0 14px;border-top:1px solid var(--line);background:var(--panel);font-size:12px;color:var(--muted)}
+[hidden]{display:none!important}button:disabled,input:disabled{opacity:.4;cursor:default}
+#assembly-controls button{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:7px 10px;cursor:pointer}
+#assembly-controls select,#assembly-time{width:100%;min-width:0;box-sizing:border-box}#assembly-progress{font-variant-numeric:tabular-nums}
+#livery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}#livery button{padding:7px 2px;font-size:11px}#view button{font-size:11px}#assembly-note{color:var(--muted);font-size:12px}
+#loading{position:absolute;inset:0;display:grid;place-content:center;background:rgba(21,23,27,.94);z-index:2;padding:32px}
+#loading-card{width:min(420px,70vw)}#loading h2{font-size:22px;font-weight:500;margin:0 0 8px}#loading p{color:var(--muted);margin:8px 0 18px;overflow-wrap:anywhere}
+#loading progress{width:100%;height:5px;accent-color:var(--accent)}#load-retry{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:8px 16px;cursor:pointer}
+</style><link rel="stylesheet" href="gallery-shell.css"></head><body><div id="app">
+<header><h1>IDFM <span>Marketing</span></h1><nav class="workspace-tabs" aria-label="Viewer workspace"><button id="assets-tab" type="button" aria-pressed="true">Assets</button><button id="parts-tab" type="button" aria-pressed="false">Part alternatives</button></nav><select id="asset" aria-label="Select asset"></select><span class="stats" id="hdr"></span><span id="parts-heading" hidden>K1 components · 40 alternatives</span></header>
+<aside>
+ <div class="ctl" id="k1-part-links" hidden><span class="lbl">Focus on a K1 part</span><div class="part-shortcuts"><button data-focus-part="v8_engine" aria-pressed="false" disabled>V8 engine</button><button data-focus-part="torsen_differential" aria-pressed="false" disabled>Torsen differential</button><button data-focus-part="tremec_transmission" aria-pressed="false" disabled>Tremec transmission</button><button data-focus-part="k1_structural_frame" aria-pressed="false" disabled>Structural frame</button></div><div id="focus-actions" hidden><button id="show-full-car">Reset car</button><button id="focused-alternatives">View alternatives ↗</button></div><span id="focus-status" class="stats" role="status">Select a component to explode the car and highlight it.</span></div>
+ <div class="ctl">
+  <div class="row"><span class="lbl">View</span><div class="seg" id="view"><button data-v="asset" class="on">Whole asset</button><button data-v="episode">Episodes</button><button data-v="assembly">Video assembly</button></div></div>
+  <div class="row" id="finish-row" hidden><span class="lbl">Finish</span><div class="seg" id="finish"><button data-v="studio" class="on">Studio materials</button><button data-v="hierarchy">Hierarchy colors</button></div></div>
+  <div class="row" id="livery-row" hidden><span class="lbl">Paint</span><div class="seg" id="livery"><button data-v="orange" hidden>Papaya</button><button data-v="blue" hidden>Electric Blue</button><button data-v="red">Rosso</button><button data-v="graphite" class="on">Graphite</button><button data-v="red_white" id="reference-finish" hidden>Red / White</button><button data-v="black_yellow" id="yellow-finish" hidden>Black / Yellow</button></div></div>
+  <div class="row"><span class="lbl">Logo</span><div class="seg" id="branding"><button data-v="on" class="on">Skyfall AI</button><button data-v="off">Off</button></div></div>
+  <div class="row"><span class="lbl">Color</span><div class="seg" id="mode"><button data-v="level" class="on">By level</button><button data-v="node">Node children</button><button data-v="atoms">Atomics</button></div></div>
+  <div class="row"><span class="lbl">Level</span><input type="range" id="level" min="1" max="8" step="1" value="1"><span class="stats" id="level-v">1</span></div>
+  <div class="row"><span class="lbl">Render</span><div class="seg" id="render"><button data-v="mesh" class="on">Mesh</button><button data-v="points">Points</button></div></div>
+  <div class="row"><span class="lbl">Explode</span><input type="range" id="explode" min="0" max="1.5" step="0.02" value="0"></div>
+  <div class="row"><span class="lbl">Points</span><input type="range" id="psize" min="1" max="5" step="0.5" value="2"></div>
+  <div class="stats" id="lstats"></div>
+ </div>
+ <div class="ctl" id="assembly-controls" hidden>
+  <div class="row"><button id="assembly-play">Play</button><button id="assembly-restart">Restart</button><select id="assembly-speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1× speed</option><option value="2">2×</option><option value="4">4×</option></select></div>
+  <input id="assembly-time" type="range" min="0" max="0" value="0" step="1" aria-label="Assembly timeline">
+  <div id="assembly-progress"></div>
+  <label for="assembly-chapter">Subassembly chapter (bottom-up)</label><select id="assembly-chapter"></select>
+  <div id="assembly-note">Green = newly added child. Gray = already assembled. Each chapter builds one parent from its children; the final chapter builds the full model. Drag to orbit, scroll to zoom.</div>
+ </div>
+ <div class="nav" id="epinav" hidden><button id="ep-prev">◀</button><button id="ep-next">▶</button><span class="stats" id="ep-pos"></span><label><input type="checkbox" id="ep-skipped"> show skipped</label></div>
+ <div class="trees" id="epilist" hidden></div>
+ <div class="trees" id="treesbox"><div class="tree" id="tree-new"><h3>Rebuilt hierarchy</h3></div></div>
+</aside>
+<div class="pane" id="pane-new"><canvas></canvas><svg id="focus-guide" hidden aria-hidden="true"><line id="focus-leader"/><circle id="focus-origin" r="4"/><circle id="focus-target" r="5"/></svg><div id="focus-label" hidden></div><div class="cap"><span id="cap-context">Rebuilt</span> <b id="cap-new"></b></div><div id="loading" role="status" aria-live="polite"><div id="loading-card"><h2 id="load-title">Opening the gallery</h2><p id="load-detail">Connecting to the asset library…</p><progress id="load-progress"></progress><button id="load-retry" hidden>Try again</button></div></div></div>
+<footer><span id="status">drag rotate · wheel zoom · shift-drag pan · double-click reset</span></footer>
+<section id="parts-workspace" aria-label="Part alternatives" hidden><iframe id="parts-frame" title="Part images and interactive alternative meshes"></iframe></section>
+</div>
+<script src="config.js"></script>
+<script src="assembly.js?v=1"></script>
+<script src="k1-focus-layout.js"></script>
+<script src="automotive-loader.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function loading(title,detail,ratio){$('loading').hidden=false;$('load-title').textContent=title;$('load-detail').textContent=detail;$('load-retry').hidden=true;$('load-progress').hidden=false;if(ratio==null)$('load-progress').removeAttribute('value');else{$('load-progress').max=1;$('load-progress').value=ratio}}
+function loadError(error){if(error?.name==='AbortError')return;loading('The model could not open',error?.message||String(error));$('load-progress').hidden=true;$('load-retry').hidden=false;$('status').textContent='Unable to load model: '+(error?.message||error)}
+$('load-retry').onclick=()=>window.location.reload();
+window.addEventListener('error',e=>loadError(e.error||e.message));
+window.addEventListener('unhandledrejection',e=>loadError(e.reason));
+let loadController=null,assetCatalog=new Map(),automotive=null,automotivePromise=null;
+let activeWorkspace=location.hash.startsWith('#parts')?'parts':'assets',requestedAssetFile=null;
+async function responseFor(url,signal){const response=await fetch(url,{signal,cache:'no-store'});if(!response.ok)throw Error(`Download failed (${response.status}): ${url}`);return response}
+async function downloadMesh(url,signal,onProgress){const response=await responseFor(url,signal);if(!response.body?.getReader)return response.arrayBuffer();
+ const total=Number(response.headers.get('X-Uncompressed-Length')||(!response.headers.get('Content-Encoding')&&response.headers.get('Content-Length')))||0;
+ const reader=response.body.getReader(),chunks=[];let received=0,buffer=total?new Uint8Array(total):null,last=0;
+ while(true){const {done,value}=await reader.read();if(signal?.aborted)throw signal.reason;if(done)break;onProgress();if(buffer){if(received+value.length>buffer.length)throw Error('The mesh download has an unexpected size. Reload to fetch the current version.');buffer.set(value,received)}else chunks.push(value);received+=value.length;
+ if(Date.now()-last>100){loading('Opening '+assetLabel,`Downloading geometry · ${(received/1e6).toFixed(1)}${total?' / '+(total/1e6).toFixed(1):''} MB`,total?received/total:null);last=Date.now()}}
+ if(total&&received!==total)throw Error('The mesh download was interrupted. Please try again.');if(!buffer){buffer=new Uint8Array(received);let offset=0;for(const chunk of chunks){buffer.set(chunk,offset);offset+=chunk.length}}return buffer.buffer;
+}
+const PAL=[];for(let i=0;i<64;i++){const h=(i*137.508)%360,l=i%2?.62:.5,s=.65,c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2,q=Math.floor(h/60);let [r,g,b]=[[c,x,0],[x,c,0],[0,c,x],[0,x,c],[x,0,c],[c,0,x]][q];PAL.push([r+m,g+m,b+m])}
+const VS=`attribute vec3 p,c,o,nrm,material,decal;attribute float a;
+uniform mat4 mvp,mv;uniform float ps,ex,sc;uniform vec3 cen;
+varying vec3 vc,vn,vp,vlocal,vm,vd;varying float va;
+void main(){vec3 pos=(p-cen)*sc+o*ex;gl_Position=mvp*vec4(pos,1.);gl_PointSize=ps;vc=c;va=a;vn=mat3(mv)*nrm;vp=(mv*vec4(pos,1.)).xyz;vlocal=p;vm=material;vd=decal;}`;
+const FS=`precision highp float;
+varying vec3 vc,vn,vp,vlocal,vm,vd;varying float va;uniform float lit,studio,glassPass,branding;uniform sampler2D logo;
+float hash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+vec3 softbox(vec3 R,vec3 axis,vec3 color,float sharpness){return color*pow(max(dot(R,normalize(axis)),0.),sharpness);}
+void main(){if(va<-.5)discard;bool glazing=(vm.z>3.5&&vm.z<4.5)||(vm.z>7.5&&vm.z<8.5);bool realistic=studio>.5&&lit>.5;
+if(realistic&&((glassPass<.5&&glazing)||(glassPass>.5&&!glazing)))discard;
+vec3 col=vc;float opacity=1.;
+if(lit>.5){vec3 N=normalize(vn);if(!gl_FrontFacing)N=-N;
+if(studio>.5){
+ float rough=vm.x,metal=vm.y,grain=hash(floor(vlocal*18000.));
+ vec3 base=pow(vc,vec3(2.2));
+ if(vm.z>4.5&&vm.z<5.5){
+ // Helicopter paint: a dark lower fuselage and a fine silver separation stripe.
+ float lower=1.-smoothstep(-.096,-.094,vlocal.y);
+ base=mix(base,vec3(.012,.018,.024),lower);
+ float stripe=smoothstep(-.096,-.0955,vlocal.y)*(1.-smoothstep(-.0935,-.093,vlocal.y));
+ base=mix(base,vec3(.30,.34,.38),stripe*.85);
+ }
+ if(vm.z>6.5&&vm.z<7.5){
+ float belly=1.-smoothstep(-.079,-.078,vlocal.y);
+ base=mix(base,pow(vec3(.88,.91,.94),vec3(2.2)),belly);
+ float band=smoothstep(-.080,-.0795,vlocal.y)*(1.-smoothstep(-.074,-.0735,vlocal.y));
+ base=mix(base,vec3(.025,.032,.04),band);
+ }
+ if(vm.z>.5&&vm.z<2.5){base*=.96+.08*grain;rough=clamp(rough+(grain-.5)*.035,.1,1.);}
+ if(vm.z>2.5&&vm.z<3.5){base*=.985+.015*sin(vlocal.y*8000.);}
+ if(branding>.5&&vd.z>.01&&vd.x>=0.&&vd.x<=1.&&vd.y>=0.&&vd.y<=1.){
+ float ink=texture2D(logo,vd.xy).a*vd.z;
+ float bright=dot(base,vec3(.2126,.7152,.0722));
+ base=mix(base,bright>.35?vec3(.003):vec3(.88),ink);metal=mix(metal,.05,ink);rough=mix(rough,.36,ink);
+ }
+ vec3 V=normalize(-vp),R=reflect(-V,N);float nv=max(dot(N,V),.001);
+ if(vm.z>5.5&&vm.z<6.5){float weave=sin(vlocal.x*4200.)*sin(vlocal.z*4200.);base*=.97+.03*weave;}
+ vec3 f0=mix(vec3(.04),base,metal);vec3 fres=f0+(1.-f0)*pow(1.-nv,5.);
+ vec3 L=normalize(vec3(-.4,.85,1.)),L2=normalize(vec3(.8,.2,.6));
+ float nl=max(dot(N,L),0.),nl2=max(dot(N,L2),0.);
+ vec3 diffuse=base*(1.-metal*.85)*(.32+.8*nl+.28*nl2);
+ vec3 env=vec3(.15,.18,.23)+softbox(R,vec3(-.55,.8,.8),vec3(3.6,3.5,3.35),mix(70.,5.,rough))
+ +softbox(R,vec3(.8,.25,.4),vec3(1.7,1.95,2.3),mix(95.,8.,rough))
+ +softbox(R,vec3(-.3,.4,-1.),vec3(1.8,1.5,1.2),mix(80.,6.,rough));
+ if((vm.z>3.5&&vm.z<5.5)||vm.z>6.5){
+ // Broad studio ceiling and narrow light panels reflected in glass and clear coat.
+ float panel=pow(max(0.,1.-abs(R.x+.35)*2.7),18.)*smoothstep(-.2,.25,R.y);
+ env+=vec3(1.9,2.05,2.2)*panel;
+ env+=vec3(.28,.4,.55)*smoothstep(-.2,.7,R.y);
+ }
+ float spec=pow(max(dot(N,normalize(L+V)),0.),mix(180.,8.,rough));
+ float dark=1.-smoothstep(.008,.045,max(base.r,max(base.g,base.b)));
+ col=diffuse+fres*env*mix(1.,.22,dark)+f0*spec*1.3;
+ if(metal<.6&&rough<.35)col+=vec3(.32)*pow(max(dot(N,normalize(L+V)),0.),140.);
+ if((vm.z>4.5&&vm.z<5.5)||(vm.z>6.5&&vm.z<7.5)||vm.z>8.5){float edge=pow(1.-nv,5.);col+=env*((vm.z>6.5?.008:.035)+.25*edge)*mix(1.,.25,dark);}
+ if(glazing){float edge=pow(1.-nv,4.);col=base*.15+env*((vm.z>7.5?.008:.18)+.82*edge);opacity=(vm.z>7.5?.92:.24)+(vm.z>7.5?.06:.65)*edge;}
+ col=pow(col/(col+vec3(.65)),vec3(1./2.2));
+}else{float d=max(dot(N,normalize(vec3(.3,.5,1.))),0.),f=max(dot(N,normalize(vec3(-.6,.2,.4))),0.);col=vc*(.35+.55*d+.15*f);}}
+if(va<.5)col=col*.25+.08;gl_FragColor=vec4(col,opacity);}`;
+function makeView(canvas){const gl=canvas.getContext('webgl');if(!gl)throw Error('WebGL is unavailable. Enable graphics acceleration in your browser settings, then reopen this page.');canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();loadError(Error('The browser lost its graphics context. Close other 3D tabs and try again.'))});const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(o);return o};
+ const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw gl.getProgramInfoLog(pr);gl.useProgram(pr);
+ const names=['p','c','a','o','nrm','material','decal'],A={},B={pts:{},mesh:{}};names.forEach(k=>{A[k]=gl.getAttribLocation(pr,k);B.pts[k]=gl.createBuffer();B.mesh[k]=gl.createBuffer()});const U={branding:gl.getUniformLocation(pr,'branding'),logo:gl.getUniformLocation(pr,'logo'),glassPass:gl.getUniformLocation(pr,'glassPass'),studio:gl.getUniformLocation(pr,'studio'),mvp:gl.getUniformLocation(pr,'mvp'),mv:gl.getUniformLocation(pr,'mv'),ps:gl.getUniformLocation(pr,'ps'),ex:gl.getUniformLocation(pr,'ex'),lit:gl.getUniformLocation(pr,'lit'),cen:gl.getUniformLocation(pr,'cen'),sc:gl.getUniformLocation(pr,'sc')};const N={pts:0,mesh:0};const indexBuffer=gl.createBuffer();let indexCount=0;const uintIndices=gl.getExtension('OES_element_index_uint');
+ const logoTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,logoTexture);
+ gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array(4));
+ gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+ gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+ if(typeof Image!=='undefined'){const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');cv.width=2048;cv.height=256;cv.getContext('2d').drawImage(img,0,0,2048,256);gl.bindTexture(gl.TEXTURE_2D,logoTexture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,cv);draw()};img.src='branding/skyfall-logo.svg';}
+
+ return {gl,canvas,setIndices(indices){if(!uintIndices)throw Error('Full meshes require 32-bit WebGL index support');gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);indexCount=indices.length},set(kind,k,arr,size){gl.bindBuffer(gl.ARRAY_BUFFER,B[kind][k]);gl.bufferData(gl.ARRAY_BUFFER,arr,gl.STATIC_DRAW);if(k==='p')N[kind]=arr.length/3},
+  draw(mats,ps,ex,kind){gl.useProgram(pr);gl.bindFramebuffer(gl.FRAMEBUFFER,null);const r=canvas.getBoundingClientRect();const W=Math.max(1,Math.floor(r.width*devicePixelRatio)),H=Math.max(1,Math.floor(r.height*devicePixelRatio));if(canvas.width!==W||canvas.height!==H){canvas.width=W;canvas.height=H}gl.viewport(0,0,W,H);gl.disable(gl.BLEND);gl.depthMask(true);gl.clearColor(0.082,0.09,0.106,1);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);if(!N[kind])return;
+   for(const [k,size] of [['p',3],['c',3],['a',1],['o',3],['nrm',3],['material',3],['decal',3]]){gl.bindBuffer(gl.ARRAY_BUFFER,B[kind][k]);gl.enableVertexAttribArray(A[k]);gl.vertexAttribPointer(A[k],size,gl.FLOAT,false,0,0)}
+   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,logoTexture);gl.uniform1i(U.logo,0);gl.uniform1f(U.branding,showBranding?1:0);gl.uniformMatrix4fv(U.mvp,false,mats.mvp);gl.uniformMatrix4fv(U.mv,false,mats.mv);gl.uniform1f(U.ps,ps*devicePixelRatio);gl.uniform1f(U.ex,ex);gl.uniform1f(U.lit,kind==='mesh'?1:0);gl.uniform1f(U.studio,materialSet&&finish==='studio'&&view!=='assembly'&&!focusedPart?1:0);gl.uniform3fv(U.cen,fit.cen);gl.uniform1f(U.sc,fit.sc);if(kind==='mesh'){gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);gl.uniform1f(U.glassPass,0);gl.drawElements(gl.TRIANGLES,indexCount,gl.UNSIGNED_INT,0);if(materialSet&&Object.values(materialSet.palette).some(m=>m.texture===4||m.texture===8)&&finish==='studio'&&view!=='assembly'&&!focusedPart){gl.uniform1f(U.glassPass,1);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);gl.drawElements(gl.TRIANGLES,indexCount,gl.UNSIGNED_INT,0);gl.depthMask(true);gl.disable(gl.BLEND)}}else gl.drawArrays(gl.POINTS,0,N[kind])}}}
+const vN=makeView(document.querySelector('#pane-new canvas'));
+let rot=[0.4,-0.7],dist=2.0,pan=[0,0];
+function mul(a,b){const o=new Array(16).fill(0);for(let i=0;i<4;i++)for(let j=0;j<4;j++)for(let k=0;k<4;k++)o[j*4+i]+=a[k*4+i]*b[j*4+k];return o}
+function mats(canvas){const [rx,ry]=rot,cx=Math.cos(rx),sx=Math.sin(rx),cy=Math.cos(ry),sy=Math.sin(ry);let R=[cy,sx*sy,-cx*sy,0,0,cx,sx,0,sy,-sx*cy,cx*cy,0,0,0,0,1];if(assetUpZ)R=mul(R,[1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1]);const T=[1,0,0,0,0,1,0,0,0,0,1,0,pan[0],pan[1],-dist,1];const mv=mul(T,R);const r=canvas.getBoundingClientRect(),a=r.width/Math.max(1,r.height),f=1/Math.tan(0.4),nn=0.05,fa=50;const P=[f/a,0,0,0,0,f,0,0,0,0,(fa+nn)/(nn-fa),-1,0,0,2*fa*nn/(nn-fa),0];return {mv,mvp:mul(P,mv)}}
+let data=null,mesh=null,meta=null,mode='level',level=1,psize=2,explode=0,render='mesh',sel={new:null},view='asset',epi=null,epiList=[],fit={cen:[0,0,0],sc:1};
+let k1FocusConfig=null,focusedPart=null,focusReturnCamera=null;
+function updateFocusControls(){
+ document.querySelectorAll('[data-focus-part]').forEach(b=>{b.disabled=!k1FocusConfig;b.setAttribute('aria-pressed',String(focusedPart?.id===b.dataset.focusPart))});
+ $('focus-actions').hidden=!focusedPart;
+ $('focus-status').textContent=focusedPart?`${focusedPart.label} · gold highlight · car shown exploded`:'Select a component to explode the car and highlight it.';
+ $('level').disabled=view==='assembly'||!!focusedPart;
+ $('mode').querySelectorAll('button').forEach(b=>{b.disabled=view==='assembly'||(!!focusedPart&&b.dataset.v==='level');b.classList.toggle('on',b.dataset.v===mode)});
+}
+function clearPartFocus(){
+ if(!focusedPart)return;
+ focusedPart=null;$('focus-guide').setAttribute('hidden','');$('focus-label').hidden=true;
+ if(focusReturnCamera){({rot,dist,pan,explode,mode}=focusReturnCamera);$('explode').value=explode;focusReturnCamera=null}
+ updateFocusControls();if(meta)buildTrees();
+}
+function selectFocusPart(id){
+ const spec=k1FocusConfig?.parts.find(p=>p.id===id);if(!spec)return;
+ if(!focusedPart)focusReturnCamera={rot:[...rot],dist,pan:[...pan],explode,mode};
+ focusedPart={...spec,nodeId:spec.author_node_id,allowed:new Set(spec.atomics),layout:K1FocusLayout.build(meta,mesh.bounds,k1FocusConfig,id,materialSet)};
+ rot=[.42,-.65];dist=1.4;pan=[0,0];explode=1;mode='node';$('explode').value=1;
+ setView('asset',true);buildTrees();
+}
+function drawFocusGuide(){
+ const guide=$('focus-guide'),label=$('focus-label');guide.toggleAttribute('hidden',!focusedPart);label.hidden=!focusedPart;if(!focusedPart)return;
+ const r=vN.canvas.getBoundingClientRect(),matrix=mats(vN.canvas).mvp;
+ const origin=K1FocusLayout.boundsFor(focusedPart.atomics,mesh.bounds).center;
+ const delta=focusedPart.layout.offsets[focusedPart.atomics[0]];
+ function project(point){const p=point.map((x,k)=>(x-fit.cen[k])*fit.sc),v=[...p,1],clip=[0,0,0,0];for(let i=0;i<4;i++)for(let j=0;j<4;j++)clip[i]+=matrix[j*4+i]*v[j];return {x:(clip[0]/clip[3]+1)*r.width/2,y:(1-clip[1]/clip[3])*r.height/2,w:clip[3]}}
+ const start=project(origin),end=project(origin.map((x,k)=>x+delta[k]*explode));
+ if(end.w<=0){guide.setAttribute('hidden','');label.hidden=true;return}
+ guide.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);
+ const line=$('focus-leader');for(const [key,value] of Object.entries({x1:start.x,y1:start.y,x2:end.x,y2:end.y}))line.setAttribute(key,value);
+ for(const [id,p] of [['focus-origin',start],['focus-target',end]]){$(id).setAttribute('cx',p.x);$(id).setAttribute('cy',p.y)}
+ label.textContent=focusedPart.label;label.style.left=Math.max(8,Math.min(r.width-190,end.x+16))+'px';label.style.top=Math.max(42,Math.min(r.height-36,end.y-36))+'px';
+}
+function buildFocusTree(){
+ const el=$('tree-new'),tr=meta.author;el.querySelector('h3').textContent='Component hierarchy';el.querySelectorAll('.node').forEach(n=>n.remove());
+ const rec=(id,depth)=>{const nd=tr.byId[id],included=nd.atomics.filter(a=>focusedPart.allowed.has(a));if(!included.length)return;
+  const row=document.createElement('button');row.className='node'+(focusedPart.nodeId===id?' sel':'');row.dataset.nodeId=id;row.style.paddingLeft=(8+depth*12)+'px';row.title=nd.name+' · '+id;row.setAttribute('aria-pressed',String(focusedPart.nodeId===id));
+  const label=document.createElement('span');label.textContent=id===focusedPart.author_node_id?focusedPart.label:nd.name;
+  const count=document.createElement('span');count.className='k';count.textContent=included.length+' parts';row.append(label,count);
+  row.onclick=()=>{focusedPart.nodeId=id;focusedPart.atomics=included;buildTrees();updateFocusControls();recolor();draw()};el.appendChild(row);
+  nd.children.forEach(child=>rec(child,depth+1));
+ };rec(focusedPart.author_node_id,0);
+}
+document.querySelectorAll('[data-focus-part]').forEach(b=>b.onclick=()=>selectFocusPart(b.dataset.focusPart));
+$('show-full-car').onclick=()=>setView('asset');
+$('focused-alternatives').onclick=()=>{if(focusedPart)window.dispatchEvent(new CustomEvent('idfm-open-alternatives',{detail:{part:focusedPart.id}}))};
+let showBranding=true;
+$('branding').querySelectorAll('button').forEach(b=>b.onclick=()=>{showBranding=b.dataset.v==='on';$('branding').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));draw()});
+let materialSet=null,finish='studio',livery='graphite',assetUpZ=false;
+$('livery').querySelectorAll('button').forEach(b=>b.onclick=()=>{livery=b.dataset.v;finish='studio';$('livery').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('finish').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.v===finish));recolor();draw()});
+$('finish').querySelectorAll('button').forEach(b=>b.onclick=()=>{finish=b.dataset.v;$('finish').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));recolor();draw()});
+let assetLabel='Jaguar E-Type roadster',loadVersion=0;
+let assembly=null,assemblyIndex=0,assemblyTimer=null,assemblyPlaying=false;
+function pauseAssembly(){clearTimeout(assemblyTimer);assemblyTimer=null;assemblyPlaying=false;$('assembly-play').textContent='Play'}
+function prepareAssembly(){pauseAssembly();assembly=AssemblySequence.build(meta.new);assemblyIndex=0;
+ $('assembly-time').max=assembly.steps.length-1;const el=$('assembly-chapter');el.innerHTML='';
+ assembly.chapters.forEach((ch,i)=>{const nd=meta.new.byId[ch.nodeId],o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. Level '+nd.depth+' · '+(nd.id===meta.new.root?'Full '+assetLabel:nd.name||nd.id)+' · '+ch.count+' children';el.appendChild(o)});
+ updateAssemblyControls()}
+function updateAssemblyControls(){if(!assembly)return;const st=assembly.steps[assemblyIndex],ch=assembly.chapters[st.chapter],nd=meta.new.byId[st.nodeId];
+ $('assembly-time').value=assemblyIndex;$('assembly-chapter').value=st.chapter;
+ $('assembly-progress').textContent='Chapter '+(st.chapter+1)+' / '+assembly.chapters.length+' · Level '+nd.depth+' · Children '+st.added+' / '+ch.count+' · Frame '+(assemblyIndex+1)+' / '+assembly.steps.length;
+ $('assembly-play').textContent=assemblyPlaying?'Pause':assemblyIndex===assembly.steps.length-1?'Replay':'Play'}
+function seekAssembly(index){if(!assembly)return;const old=assembly.steps[assemblyIndex];assemblyIndex=Math.max(0,Math.min(assembly.steps.length-1,index));const st=assembly.steps[assemblyIndex];
+ if(!old||old.chapter!==st.chapter){pan=[0,0];dist=2.0}updateAssemblyControls();if(view==='assembly'){recolor();draw()}}
+function scheduleAssembly(){clearTimeout(assemblyTimer);if(!assemblyPlaying)return;
+ assemblyTimer=setTimeout(()=>{if(!assemblyPlaying||view!=='assembly')return;
+ if(assemblyIndex>=assembly.steps.length-1){pauseAssembly();updateAssemblyControls();return}
+ seekAssembly(assemblyIndex+1);if(assemblyIndex===assembly.steps.length-1){pauseAssembly();updateAssemblyControls()}else scheduleAssembly();
+ },750/Number($('assembly-speed').value))}
+$('assembly-play').onclick=()=>{if(!assembly)return;if(assemblyPlaying){pauseAssembly();updateAssemblyControls();return}if(assemblyIndex===assembly.steps.length-1)seekAssembly(0);assemblyPlaying=true;updateAssemblyControls();scheduleAssembly()};
+$('assembly-restart').onclick=()=>{pauseAssembly();seekAssembly(0)};
+$('assembly-time').oninput=e=>{pauseAssembly();seekAssembly(Number(e.target.value))};
+$('assembly-chapter').onchange=e=>{pauseAssembly();seekAssembly(assembly.chapters[Number(e.target.value)].start)};
+$('assembly-speed').onchange=()=>{if(assemblyPlaying)scheduleAssembly()};
+function materialPath(file){return file.startsWith('Jaguar_')?'materials/jaguar.json':file.startsWith('ducati_')?'materials/ducati.json':file.startsWith('capsule_')?'materials/helicopter.json':file.startsWith('K1_Brutal_Edition_')?'materials/k1.json':null}
+async function loadAsset(file){const materialFile=materialPath(file);const version=++loadVersion;loadController?.abort();loadController=new AbortController();const controller=loadController,signal=controller.signal;let stallTimer;const received=()=>{clearTimeout(stallTimer);stallTimer=setTimeout(()=>controller.abort(Error('The download stopped responding for 45 seconds. Check your connection and try again.')),45000)};received();pauseAssembly();k1FocusConfig=null;focusedPart=null;focusReturnCamera=null;$('focus-guide').setAttribute('hidden','');$('focus-label').hidden=true;updateFocusControls();loading('Opening '+assetLabel,'Downloading geometry…');$('status').textContent='loading…';
+let bin,js,mb,materials,focusConfig;try{[bin,js,mb,materials,focusConfig]=await Promise.all([
+ responseFor(`${IDFM_ASSET_BASE}data/${file}.bin`,signal).then(r=>r.arrayBuffer()),responseFor(`${IDFM_ASSET_BASE}data/${file}.json`,signal).then(r=>r.json()),
+ downloadMesh(IDFM_ASSET_BASE+(assetCatalog.get(file)?.display_mesh||`data/${file}.full.bin`),signal,received),materialFile?responseFor(materialFile,signal).then(r=>r.json()):Promise.resolve(null),file.startsWith('K1_Brutal_Edition_')?responseFor('k1-focus-parts.json',signal).then(r=>r.json()):Promise.resolve(null)
+]);}catch(error){if(signal.aborted)error=signal.reason;if(version===loadVersion&&error?.name!=='AbortError'){controller.abort();throw error}return}finally{clearTimeout(stallTimer)}
+if(version!==loadVersion)return;loading('Opening '+assetLabel,'Preparing the 3D view…',1);if(typeof requestAnimationFrame==='function')await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));if(version!==loadVersion)return;if(materials&&materials.source_sha256!==js.source_sha256)throw Error('Materials do not match this CAD asset');automotive?.clear();materialSet=materials;livery=materials?.default_variant||'graphite';$('livery').querySelectorAll('button').forEach(b=>{b.hidden=!materials?.variants?.[b.dataset.v];if(!b.hidden)b.textContent=materials.variants[b.dataset.v].label;b.classList.toggle('on',b.dataset.v===livery)});assetUpZ=file.startsWith('Jaguar_');finish=materials?'studio':'hierarchy';$('finish-row').hidden=!materials;$('livery-row').hidden=Object.keys(materials?.variants||{}).length<2;$('finish').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===finish));meta=js;const n=js.n_points;const pos=new Float32Array(bin,0,n*3);const atom=new Uint16Array(bin,n*12,n);data={pos,atom,n};for(const v of [vN]){v.set('pts','p',pos,3);v.set('pts','nrm',new Float32Array(n*3),3);v.set('pts','decal',new Float32Array(n*3),3)}
+ mesh=null;if(mb){if(mb.byteLength<8)throw Error('Empty mesh download');const hd=new Uint32Array(mb,0,2),nV=hd[0],nF=hd[1];if(mb.byteLength!==8+nV*26+nF*12)throw Error('The mesh file is incomplete or unavailable. Check that Git LFS files have been downloaded on the server.');
+ const V=new Float32Array(mb,8,nV*3),NR=new Float32Array(mb,8+nV*12,nV*3),F=new Uint32Array(mb,8+nV*24,nF*3),VA=new Uint16Array(mb,8+nV*24+nF*12,nV);
+ const bounds=Array.from({length:js.atomic_names.length},()=>[Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity]);
+ for(let i=0;i<nV;i++){const bound=bounds[VA[i]];for(let k=0;k<3;k++){bound[k]=Math.min(bound[k],V[i*3+k]);bound[k+3]=Math.max(bound[k+3],V[i*3+k])}}
+ mesh={nV,nF,atom:VA,bounds};
+ if(materials?.surface_materials){if(materials.surface_mesh!==assetCatalog.get(file)?.display_mesh||materials.surface_vertex_count!==nV)throw Error('Surface materials do not match the display mesh');mesh.surfacePalette=Object.keys(materials.palette);mesh.materialRoles=new Uint8Array(nV);for(const surface of materials.surface_materials){const role=mesh.surfacePalette.indexOf(surface.material);if(role<0||surface.start<0||surface.start+surface.count>nV||VA[surface.start]!==surface.atomic||VA[surface.start+surface.count-1]!==surface.atomic)throw Error('Invalid surface material assignment');mesh.materialRoles.fill(role+1,surface.start,surface.start+surface.count)}}
+ vN.set('mesh','p',V,3);vN.set('mesh','nrm',NR,3);vN.setIndices(F);
+ // One continuous wordmark per side across the exterior cowling skin and its outer seam covers.
+ // Keep the shared projection off the nested inner shells, even when the model is exploded.
+ const decals=new Float32Array(nV*3),brandedAtomics=new Set();
+ for(let i=0;i<nV;i++){const a=VA[i],x=V[i*3],y=V[i*3+1],z=V[i*3+2];let u=0,v=0,w=0;
+ if(file.startsWith('Jaguar_')&&[5,1357].includes(a)){u=(x-.035)/.145*(y>0?-1:1)+.5;v=(z-.026)/(.145/8.33)+.5;w=Math.abs(NR[i*3+1])>.45?1:0;}
+ if(file.startsWith('ducati_')&&a===581){u=(x-.055)/.18*(z>0?1:-1)+.5;v=(y-.197)/(.18/8.33)+.5;w=Math.abs(NR[i*3+2])>.45?1:0;}
+ if(file.startsWith('capsule_')&&[77,78,89,108,116,117,118,418].includes(a)){u=(z-.04)/.15*(x>0?-1:1)+.5;v=(y-.054)/(.15/8.33)+.5;w=(x*NR[i*3]>0&&Math.abs(NR[i*3])>.5)?1:0;}
+ decals.set([u,v,w],i*3);if(w>0)brandedAtomics.add(a);}
+ mesh.brandedAtomics=[...brandedAtomics];vN.set('mesh','decal',decals,3);
+ if(materials?.renderer==='automotive'&&window.loadAutomotiveRenderer){loading('Opening '+assetLabel,'Preparing paint, glass and studio lighting…',1);automotive = await (automotivePromise ||= window.loadAutomotiveRenderer(vN.canvas,vN.gl));if(version!==loadVersion)return;automotive.setModel(V,NR,F,VA,js,materials);}}
+
+ $('status').textContent=`${n.toLocaleString()} points · ${mesh?mesh.nF.toLocaleString()+' triangles (full resolution)':'no mesh'} · drag rotate · wheel zoom · shift-drag pan`;
+ for(const t of ['new']){const tr=js[t];tr.byId={};tr.nodes.forEach(nd=>tr.byId[nd.id]=nd);tr.maxDepth=Math.max(...tr.nodes.map(nd=>nd.depth));
+  // ancestor at each depth per atomic
+  const A=js.atomic_names.length;tr.anc=[];for(let d=0;d<=tr.maxDepth;d++){const arr=new Int32Array(A).fill(-1);tr.nodes.forEach((nd,i)=>{if(nd.depth===d)nd.atomics.forEach(a=>arr[a]=i)});tr.anc.push(arr)}
+  // a leaf above depth d keeps its own node id: fill down
+  for(let d=1;d<=tr.maxDepth;d++)for(let a=0;a<A;a++)if(tr.anc[d][a]<0)tr.anc[d][a]=tr.anc[d-1][a];}
+ if(focusConfig){if(focusConfig.source_sha256!==js.source_sha256)throw Error('K1 part selections do not match this CAD asset');js.author.byId=Object.fromEntries(js.author.nodes.map(nd=>[nd.id,nd]));for(const part of focusConfig.parts){const node=js.author.byId[part.author_node_id];if(!node||!part.atomics.length||part.atomics.some(a=>!node.atomics.includes(a)))throw Error('Invalid K1 component selection')}k1FocusConfig=focusConfig}updateFocusControls();
+ rot=[0.28,-0.7];dist=materials?1.35:2;pan=[0,0];level=Math.min(level,js.new.maxDepth);$('level').value=level;$('level-v').textContent=level;prepareAssembly();sel={new:null};epi=null;if(view==='episode'){buildEpisodes();if(epiList.length)epi=epiList[0].id;buildEpisodes()}$('level').max=js.new.maxDepth;buildTrees();recolor();draw();const glError=vN.gl.getError();if(glError===vN.gl.OUT_OF_MEMORY||glError===vN.gl.CONTEXT_LOST_WEBGL)throw Error('The browser ran out of graphics memory. Close other 3D tabs and try again.');$('loading').hidden=true}
+function labelsFor(tr,which){if(view==='assembly'&&assembly)return AssemblySequence.masks(tr,assembly.steps[assemblyIndex],meta.atomic_names.length);const A=meta.atomic_names.length;const lab=new Int32Array(A),act=new Uint8Array(A).fill(1);
+ if(focusedPart){for(let a=0;a<A;a++)lab[a]=a;for(const a of focusedPart.atomics)act[a]=2;return [lab,act]}
+ if(view==='episode'&&epi){const nd=meta.new.byId[epi];const mem=new Set(nd.atomics);lab.fill(-1);act.fill(0);for(const a of mem)act[a]=1;
+  nd.children.forEach((c,i)=>meta.new.byId[c].atomics.forEach(a=>lab[a]=i));
+  return [lab,act]}
+ if(mode==='atoms'){for(let a=0;a<A;a++)lab[a]=a}
+ else if(mode==='node'&&sel[which]){const nd=tr.byId[sel[which]];lab.fill(-1);nd.children.forEach((c,i)=>tr.byId[c].atomics.forEach(a=>lab[a]=i));const mem=new Set(nd.atomics);for(let a=0;a<A;a++)if(!mem.has(a))act[a]=0}
+ else{const d=Math.min(level,tr.maxDepth);lab.set(tr.anc[d])}
+ return [lab,act]}
+function paint(v,kind,atomOf,count,lab,act){const col=new Float32Array(count*3),ac=new Float32Array(count),off=new Float32Array(count*3),surface=new Float32Array(count*3);
+ // group centroids from the point cloud (cheap) for the explode direction
+ const cen={},cnt={};for(let i=0;i<data.n;i++){const l=lab[data.atom[i]];if(l<0)continue;if(!cen[l]){cen[l]=[0,0,0];cnt[l]=0}cen[l][0]+=data.pos[3*i];cen[l][1]+=data.pos[3*i+1];cen[l][2]+=data.pos[3*i+2];cnt[l]++}
+ for(const l in cen){const c=cnt[l];cen[l]=[cen[l][0]/c*1.5,cen[l][1]/c*1.5,cen[l][2]/c*1.5]}
+ for(let i=0;i<count;i++){const a=atomOf(i),l=lab[a];const activeMaterials=materialSet?.variants?.[livery]||materialSet;const mat=activeMaterials?activeMaterials.palette[kind==='mesh'&&mesh.materialRoles?.[i]?mesh.surfacePalette[mesh.materialRoles[i]-1]:activeMaterials.atomic_materials[a]]:null;if(mat){surface.set([mat.roughness,mat.metalness,mat.texture],i*3)}const c=focusedPart?(act[a]===2?[1,.66,.12]:[.34,.40,.48]):mat&&finish==='studio'&&view!=='assembly'?mat.color:view==='assembly'?(act[a]===2?[.15,.95,.35]:[.78,.8,.82]):l<0?[0.3,0.3,0.32]:PAL[l%64];col[3*i]=c[0];col[3*i+1]=c[1];col[3*i+2]=c[2];ac[i]=((view==='episode'||view==='assembly')&&!act[a])?-1:act[a];const ce=l<0?null:cen[l];if(focusedPart){const delta=focusedPart.layout.offsets[a];off[i*3]=delta[0]*fit.sc;off[i*3+1]=delta[1]*fit.sc;off[i*3+2]=delta[2]*fit.sc}else if(ce){off[3*i]=(ce[0]-1.5*fit.cen[0])*fit.sc;off[3*i+1]=(ce[1]-1.5*fit.cen[1])*fit.sc;off[3*i+2]=(ce[2]-1.5*fit.cen[2])*fit.sc}}
+ if(kind==='mesh'&&materialSet?.renderer==='automotive'&&automotive){automotive.updateAttribute('cadVisible',ac,1);automotive.updateAttribute('cadOffset',off,3)}v.set(kind,'material',surface,3);v.set(kind,'c',col,3);v.set(kind,'a',ac,1);v.set(kind,'o',off,3)}
+function computeFit(){if(focusedPart){fit=K1FocusLayout.fit(focusedPart.layout,mesh.bounds,Math.max(1,explode));return}fit={cen:[0,0,0],sc:1};const id=view==='assembly'&&assembly?assembly.steps[assemblyIndex].nodeId:view==='episode'?epi:null;if(!id&&!focusedPart)return;
+ const mem=new Set(focusedPart?focusedPart.atomics:meta.new.byId[id].atomics),lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
+ if(mesh){for(const a of mem){const b=mesh.bounds[a];for(let k=0;k<3;k++){lo[k]=Math.min(lo[k],b[k]);hi[k]=Math.max(hi[k],b[k+3])}}}
+ else for(let i=0;i<data.n;i++){if(!mem.has(data.atom[i]))continue;for(let k=0;k<3;k++){const x=data.pos[3*i+k];lo[k]=Math.min(lo[k],x);hi[k]=Math.max(hi[k],x)}}
+ if(!Number.isFinite(lo[0])||lo[0]>hi[0])return;const ext=Math.max(...hi.map((x,k)=>x-lo[k]),1e-6);fit={cen:lo.map((x,k)=>(x+hi[k])/2),sc:1/ext}}
+function assemblyCaption(){const st=assembly.steps[assemblyIndex],nd=meta.new.byId[st.nodeId],added=st.highlight?meta.new.byId[st.highlight]:null;
+ return 'Video assembly · Level '+nd.depth+' · '+(nd.id===meta.new.root?'Full '+assetLabel:nd.name||nd.id)+' · '+st.added+'/'+nd.children.length+' children'+(added?' · Adding '+(added.name||added.id):st.added?' · Complete':' · Starting');
+}
+function epiCaption(nd){const tot=nd.atomics.reduce((s,a)=>s+meta.atomic_area[a],0);const fr=nd.children.map(c=>meta.new.byId[c].atomics.reduce((s,a)=>s+meta.atomic_area[a],0)/tot);const mn=fr.length?Math.min(...fr):0;return `depth ${nd.depth} · K=${nd.k} · ${nd.atomics.length} atomics · min child ${(mn*100).toFixed(1)}%${nd.scattered?' · scattered parent':''}${nd.fallback?' · geom fallback':''}${nd.kind==='dominated_leaf'?' · LEAF: body + attachments (not split)':nd.dominated?' · DOMINATED (skipped)':''}${nd.small?' · SMALL (skipped)':''}${nd.symmetry_moves?' · sym '+nd.symmetry_moves:''}${nd.tiny_attached?' · attached '+nd.tiny_attached:''}`}
+function recolor(){if(!data)return;computeFit();for(const [v,tr,t] of [[vN,meta.new,'new']]){const [lab,act]=labelsFor(tr,t);paint(v,'pts',i=>data.atom[i],data.n,lab,act);if(mesh)paint(v,'mesh',i=>mesh.atom[i],mesh.nV,lab,act)}
+ const tr=meta.new,d=Math.min(level,tr.maxDepth),groups=new Set(tr.anc[d]);$('cap-context').textContent=focusedPart?'Component':'Rebuilt';$('cap-new').textContent=focusedPart?`${focusedPart.label} · highlighted in gold · exploded car`:view==='assembly'&&assembly?assemblyCaption():view==='episode'&&epi?epiCaption(tr.byId[epi]):mode==='node'&&sel.new?`${tr.byId[sel.new].name} · ${tr.byId[sel.new].k} children`:mode==='atoms'?`${tr.anc[0].length} atomics`:`level ${d} · ${groups.size} groups (depth ${tr.maxDepth})`;}
+function draw(){if(!data||activeWorkspace!=='assets')return;const kind=(render==='mesh'&&mesh)?'mesh':'pts';if(kind==='mesh'&&materialSet?.renderer==='automotive'&&automotive&&finish==='studio'&&view!=='assembly'){automotive.draw(mats(vN.canvas),fit,explode,livery,view==='asset'&&!focusedPart,!!focusedPart)}else vN.draw(mats(vN.canvas),psize,view==='assembly'?0:explode,kind);drawFocusGuide()}
+function buildTrees(){if(focusedPart){buildFocusTree();return}$('tree-new').querySelector('h3').textContent='Rebuilt hierarchy';for(const [t,tr] of [['new',meta.new]]){const el=$(`tree-${t}`);el.querySelectorAll('.node').forEach(x=>x.remove());const byId=tr.byId;const rec=(id,ind)=>{const nd=byId[id];if(!nd)return;const div=document.createElement('div');div.className='node'+(sel[t]===id?' sel':'');div.style.paddingLeft=(8+ind*12)+'px';const idx=tr.nodes.indexOf(nd);const c=PAL[idx%64];const area=nd.atomics.reduce((s,a)=>s+meta.atomic_area[a],0)/meta.atomic_area.reduce((s,x)=>s+x,0);
+  div.innerHTML=`<span class="sw" style="background:rgb(${c.map(x=>Math.round(x*255)).join(',')})"></span><span>${nd.kind==='leaf'||nd.kind==='atomic_leaf'?nd.name:nd.atomics.length+' atomics'}</span><span class="k">${nd.k>=2?'K='+nd.k:''} ${(area*100).toFixed(1)}%</span>${nd.fallback?'<span class="fb">geom</span>':''}`;
+  div.onclick=()=>{sel[t]=(sel[t]===id)?null:id;mode=sel[t]?'node':mode;document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.v===mode));buildTrees();recolor();draw()};el.appendChild(div);if(nd.children.length>=1&&ind<12)nd.children.forEach(ch=>rec(ch,ind+1))};rec(tr.root,0)}}
+function buildEpisodes(){const showSk=$('ep-skipped').checked;epiList=meta.new.nodes.filter(nd=>nd.kind==='task'&&(nd.episode||showSk));const el=$('epilist');el.innerHTML='';const tot=meta.atomic_area.reduce((s,x)=>s+x,0);
+ epiList.forEach((nd,i)=>{const area=nd.atomics.reduce((s,a)=>s+meta.atomic_area[a],0);const fr=nd.children.map(c=>meta.new.byId[c].atomics.reduce((s,a)=>s+meta.atomic_area[a],0)/area);const mn=fr.length?Math.min(...fr):0;const div=document.createElement('div');div.className='epi'+(epi===nd.id?' sel':'');div.style.paddingLeft=(10+nd.depth*8)+'px';
+  div.innerHTML=`<span class="d">d${nd.depth}</span><span>K=${nd.k}</span><span class="k stats">${(area/tot*100).toFixed(1)}%</span><span class="stats">min ${(mn*100).toFixed(1)}%</span>${mn<0.02?'<span class="tag lo">&lt;2%</span>':''}${nd.scattered?'<span class="tag sc">scattered</span>':''}${nd.fallback?'<span class="tag fb">geom</span>':''}${nd.symmetry_moves?'<span class="tag sy">sym '+nd.symmetry_moves+'</span>':''}${nd.kind==='dominated_leaf'?'<span class="tag sk">leaf·dominated</span>':nd.dominated?'<span class="tag sk">skipped</span>':''}${nd.small?'<span class="tag sk">small</span>':''}`;
+  div.onclick=()=>{selectEpisode(nd.id)};el.appendChild(div)});$('ep-pos').textContent=epiList.length?`${Math.max(0,epiList.findIndex(n=>n.id===epi))+1} / ${epiList.length}`:'no episodes'}
+function selectEpisode(id){epi=id;buildEpisodes();recolor();draw();const el=$('epilist').querySelector('.epi.sel');if(el)el.scrollIntoView({block:'nearest'})}
+function stepEpisode(k){if(!epiList.length)return;let i=epiList.findIndex(n=>n.id===epi);i=(i+k+epiList.length)%epiList.length;selectEpisode(epiList[i].id)}
+$('ep-prev').onclick=()=>stepEpisode(-1);$('ep-next').onclick=()=>stepEpisode(1);$('ep-skipped').onchange=()=>buildEpisodes();
+window.addEventListener('keydown',e=>{if(activeWorkspace!=='assets'||view!=='episode')return;if(e.key==='ArrowRight')stepEpisode(1);else if(e.key==='ArrowLeft')stepEpisode(-1)});
+function setView(v,keepFocus=false){pauseAssembly();if(!keepFocus)clearPartFocus();view=v;$('view').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.v===v));const ep=v==='episode';$('epinav').hidden=!ep;$('epilist').hidden=!ep;$('treesbox').hidden=ep||v==='assembly';$('assembly-controls').hidden=v!=='assembly';$('finish').querySelectorAll('button').forEach(b=>b.disabled=v==='assembly');$('livery').querySelectorAll('button').forEach(b=>b.disabled=v==='assembly');$('level').disabled=v==='assembly';$('explode').disabled=v==='assembly';$('mode').querySelectorAll('button').forEach(b=>b.disabled=v==='assembly');if(v==='assembly'){pan=[0,0];dist=2;updateAssemblyControls()}if(ep&&meta){buildEpisodes();if(!epi&&epiList.length)epi=epiList[0].id;buildEpisodes()}updateFocusControls();recolor();draw()}
+$('view').querySelectorAll('button').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+// Rebuilt hierarchy camera controls
+let drag=null;for(const cv of [vN.canvas]){cv.addEventListener('mousedown',e=>{drag={x:e.clientX,y:e.clientY,shift:e.shiftKey}});cv.addEventListener('wheel',e=>{e.preventDefault();dist*=Math.exp(e.deltaY*0.001);dist=Math.max(0.2,Math.min(10,dist));draw()},{passive:false});cv.addEventListener('dblclick',()=>{rot=focusedPart?[.42,-.65]:materialSet?[0.28,-0.7]:[0.4,-0.7];dist=focusedPart?1.4:materialSet?1.35:2.0;pan=[0,0];draw()})}
+window.addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(drag.shift){pan[0]+=dx*0.002*dist;pan[1]-=dy*0.002*dist}else{rot[1]+=dx*0.008;rot[0]=Math.max(-1.55,Math.min(1.55,rot[0]+dy*0.008))}drag.x=e.clientX;drag.y=e.clientY;draw()});window.addEventListener('mouseup',()=>drag=null);window.addEventListener('resize',draw);
+$('mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.v;finish='hierarchy';$('finish').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.v===finish));$('mode').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));recolor();draw()});
+$('level').oninput=e=>{level=+e.target.value;$('level-v').textContent=level;if(mode==='node'){mode='level';document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x.dataset.v==='level'))}recolor();draw()};
+$('psize').oninput=e=>{psize=+e.target.value;draw()};
+$('explode').oninput=e=>{explode=+e.target.value;if(focusedPart)recolor();draw()};
+$('render').querySelectorAll('button').forEach(b=>b.onclick=()=>{render=b.dataset.v;$('render').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));draw()});
+responseFor('assets.json').then(r=>r.json()).then(list=>{assetCatalog=new Map(list.map(a=>[a.file,a]));const s=$('asset');list.forEach(a=>{const o=document.createElement('option');o.value=a.file;o.textContent=`${a.category ? a.category+' / ' : ''}${a.label||a.key} · ${a.atomics} atomics · depth ${a.new_depth}`;s.appendChild(o)});
+ const requested=new URL(window.location.href).searchParams.get('asset');if(assetCatalog.has(requested))s.value=requested;
+ s.onchange=()=>{const a=assetCatalog.get(s.value);assetLabel=a.label||a.key;$('hdr').innerHTML=`${a.atomics} atomics · root K <b>${a.root_k_new}</b> · episodes <b>${a.episodes??'–'}</b> · depth <b>${a.new_depth}</b>`;$('k1-part-links').hidden=!a.file.startsWith('K1_Brutal_Edition_');const url=new URL(window.location.href);url.searchParams.set('asset',a.file);window.history.replaceState(null,'',url);if(activeWorkspace==='assets'&&requestedAssetFile!==a.file){requestedAssetFile=a.file;loadAsset(a.file).catch(error=>{requestedAssetFile=null;loadError(error)})}};s.onchange()
+}).catch(loadError);
+window.addEventListener('idfm-workspace',event=>{activeWorkspace=event.detail;drag=null;if(activeWorkspace==='parts'){pauseAssembly()}else{if(assetCatalog.size)$('asset').onchange();requestAnimationFrame(draw)}});
+</script><script src="gallery-shell.js"></script></body></html>

@@ -1,0 +1,70 @@
+{
+  "schema": "idfm-full-mesh-v1",
+  "description": "All source triangles preserved, including coincident solids. Indexed positions, normals, faces and vertex atomic IDs; no decimation.",
+  "files": [
+    {
+      "path": "viewer/data/Jaguar_E_Type_roadster_242824dc.full.bin",
+      "source": "asset/bundle.npz",
+      "vertices": 2228115,
+      "triangles": 2435622,
+      "bytes": 87158462,
+      "sha256": "8073f1beb9c5b1f97adc71357525536c50b2e51e5e3d1cd4c32011c0858a7ff3",
+      "normalization": {
+        "center": [
+          265.2025146484375,
+          1.51641845703125,
+          2414.9363403320312
+        ],
+        "extent": 4439.018798828125
+      }
+    },
+    {
+      "path": "viewer/data/capsule_v2_15400e9a.full.bin",
+      "source": "assets/capsule_v2_15400e9a/bundle.npz",
+      "vertices": 610413,
+      "triangles": 594204,
+      "bytes": 23001194,
+      "sha256": "42bc4c73ad738f8c340276e0f8ad1c9cabef33ae93383a98b1ad56fb3a455662",
+      "normalization": {
+        "center": [
+          6.07421875,
+          -670.6102905273438,
+          -535.467041015625
+        ],
+        "extent": 11996.73681640625
+      }
+    },
+    {
+      "path": "viewer/data/ducati_996_caf\u00e9_racer_n\u00e9o_retro_Roadster_26016825.full.bin",
+      "source": "assets/ducati_996_caf\u00e9_racer_n\u00e9o_retro_Roadster_26016825/bundle.npz",
+      "vertices": 1821524,
+      "triangles": 2050521,
+      "bytes": 71965884,
+      "sha256": "b1af52e056fece6a27ac896423afcd2bc74ec9ae18d6c8e7703a013ae83c5a27",
+      "normalization": {
+        "center": [
+          199.250244140625,
+          -19.904693603515625,
+          -6.9738311767578125
+        ],
+        "extent": 2033.572265625
+      }
+    },
+    {
+      "path": "viewer/data/K1_Brutal_Edition_2da4f05e.full.bin",
+      "source": "assets/K1_Brutal_Edition_2da4f05e/bundle.npz",
+      "vertices": 783801,
+      "triangles": 658340,
+      "bytes": 28278914,
+      "sha256": "c3f358f8df683ba23e5ce76f79ae3237c5fae9b80ab3bfb030fe50147d968c10",
+      "normalization": {
+        "center": [
+          0.0,
+          507.499755859375,
+          -517.6111450195312
+        ],
+        "extent": 4384.3763427734375
+      }
+    }
+  ]
+}
